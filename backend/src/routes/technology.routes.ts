@@ -11,7 +11,7 @@ router.get('', getTechnologies);
 router.get('/published', getPublishedTechnologies);
 router.get('/:id', getTechnologyById);
 router.post('', createTechnology);
-router.post('/publish/:id', publishTechnology);
+router.put('/publish/:id', publishTechnology);
 router.put('/ring/:id', updateRingOfTechnology);
 router.put('/:id', updateTechnology);
 router.delete('/:id', deleteTechnology);

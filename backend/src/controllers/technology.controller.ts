@@ -3,7 +3,7 @@ import {Technology} from "../models/technology.model";
 
 // Create a technology
 export const createTechnology = (req: Request, res: Response): void => {
-    const {name, description, category, ring, description_ring} = req.body;
+    const {name, description, category, ring, description_ring, published} = req.body;
 
     if (!name || !description || !category) {
         res.status(400).json({message: 'All required fields must be filled in!'});
@@ -13,11 +13,18 @@ export const createTechnology = (req: Request, res: Response): void => {
     const newTechnology = new Technology({
         name,
         category,
-        ring,
         description,
-        description_ring,
+        published,
         createdAt: new Date()
     });
+
+    console.log(ring);
+    console.log(description_ring);
+
+    if (ring != undefined && description_ring != undefined) {
+        newTechnology.ring = ring;
+        newTechnology.description_ring = description_ring;
+    }
 
     newTechnology.save()
     .then((technology) => {

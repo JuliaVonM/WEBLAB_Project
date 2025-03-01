@@ -1,0 +1,79 @@
+@if (isEdit) {
+  <h2 *ngIf="isEdit" mat-dialog-title>Edit technology</h2>
+} @else {
+  <h2 mat-dialog-title>Add technology</h2>
+}
+<mat-dialog-content>
+  <form [formGroup]="technologyForm">
+
+    <div class="container">
+      <!-- Name Field -->
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" required/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <!-- Description Field -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" required></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <!-- Category Dropdown -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category" required>
+              <mat-option *ngFor="let category of categories" [value]="category._id">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Ring Dropdown -->
+        <div *ngIf="!isEdit" class="col-sm-6">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Ring</mat-label>
+            <mat-select formControlName="ring">
+              <mat-option *ngFor="let ring of rings" [value]="ring._id">
+                {{ ring.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="!isEdit" class="row">
+        <div class="col">
+          <!-- Ring Description Field -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Ring Description</mat-label>
+            <textarea matInput formControlName="description_ring"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="d-flex">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <div class="ms-auto">
+    @if (isEdit) {
+      <button mat-flat-button [disabled]="technologyForm.invalid" (click)="onUpdate()">Save
+      </button>
+    } @else {
+      <button mat-button [disabled]="technologyForm.invalid" (click)="onSaveDraft()">Save Draft
+      </button>
+      <button mat-flat-button (click)="onPublish()" [disabled]="!allFieldsSet()">
+        Publish
+      </button>
+    }
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,10 @@
+/*TODO: fix colors of chips*/
+.published {
+  background-color: var(--mat-sys-primary) !important;
+  color: white !important;
+}
+
+.unpublished {
+  label-text-color: var(--mat-sys-primary) !important;
+  background-color: white !important;
+}

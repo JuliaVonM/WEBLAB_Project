@@ -1,6 +1,7 @@
 import {Types} from "mongoose";
 
 export interface ITechnology {
+    __id?: string;
     name: string;
     description: string;
     category: Types.ObjectId;

@@ -1,0 +1,40 @@
+@if (isEdit) {
+  <h2 mat-dialog-title>Change classification</h2>
+} @else {
+  <h2 mat-dialog-title>Complete information for publishing</h2>
+}
+<mat-dialog-content>
+  <form [formGroup]="technologyForm">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Ring</mat-label>
+            <mat-select formControlName="ring">
+              <mat-option *ngFor="let ring of data.rings" [value]="ring._id">
+                {{ ring.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Ring Description</mat-label>
+            <textarea matInput formControlName="ringDescription"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  @if(isEdit){
+    <button mat-flat-button (click)="onSave()" [disabled]="!technologyForm.valid">Save</button>
+  } @else {
+    <button mat-flat-button (click)="onSave()" [disabled]="!technologyForm.valid">Publish</button>
+  }
+</mat-dialog-actions>
