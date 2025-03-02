@@ -2,7 +2,8 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  Input, OnChanges,
+  Input,
+  OnChanges,
   OnInit,
   Output,
   SimpleChanges,
@@ -38,7 +39,7 @@ import {
   TechnologyFormDialogComponent
 } from '../technology-form-dialog/technology-form-dialog.component';
 import {MatTooltip} from '@angular/material/tooltip';
-import {MatSort, MatSortable, MatSortHeader} from '@angular/material/sort';
+import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 
@@ -171,9 +172,6 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     } else {
       this.filteredTechnologies.data = this.technologies.filter(tech => !tech.published);
     }
-
-    console.log(this.technologies)
-    console.log(this.filteredTechnologies);
   }
 
   applyFilter(event: Event) {
@@ -243,7 +241,6 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
         this.updateTechnologies.emit();
       }
     });
@@ -261,7 +258,6 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
         this.updateTechnologies.emit();
       }
     });

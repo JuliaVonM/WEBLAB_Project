@@ -18,9 +18,6 @@ export const createTechnology = (req: Request, res: Response): void => {
         createdAt: new Date()
     });
 
-    console.log(ring);
-    console.log(description_ring);
-
     if (ring != undefined && description_ring != undefined) {
         newTechnology.ring = ring;
         newTechnology.description_ring = description_ring;

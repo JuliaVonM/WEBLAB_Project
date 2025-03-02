@@ -43,8 +43,6 @@ export class TechnologyAdminComponent implements OnInit {
 
   loadTechnologies() {
     this.techService.getTechnologies().subscribe(technologies => {
-      console.log("admin " + technologies);
-
       this.technologies = technologies;
     });
   }

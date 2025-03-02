@@ -47,8 +47,6 @@ export class TechnologyViewerComponent implements OnInit {
 
   loadTechnologies() {
     this.techService.getPublishedTechnologies().subscribe(technologies => {
-      console.log(technologies);
-
       this.techniques = technologies.filter(technology => {
         return this.getCategoryName(technology.category) === 'Techniques';
       });
@@ -60,7 +58,6 @@ export class TechnologyViewerComponent implements OnInit {
       this.platforms = technologies.filter(technology => {
         return this.getCategoryName(technology.category) === 'Platform';
       });
-      console.log("platform" + this.platforms);
 
       this.languagesAndFrameworks = technologies.filter(technology => {
         return this.getCategoryName(technology.category) === 'Languages & Frameworks';

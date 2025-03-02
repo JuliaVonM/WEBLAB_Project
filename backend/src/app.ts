@@ -9,6 +9,8 @@ import bodyParser from "body-parser";
 import categoryRoutes from "./routes/category.routes";
 import ringRoutes from "./routes/ring.routes";
 import technologyRoutes from "./routes/technology.routes";
+import userRoutes from "./routes/user.routes";
+import roleRoutes from "./routes/role.routes";
 
 config();
 
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use("/api/categories", categoryRoutes)
 app.use("/api/rings", ringRoutes)
 app.use("/api/technologies", technologyRoutes)
+app.use("/api/login", userRoutes)
+app.use("/api/roles", roleRoutes)
 
 app.use(notFound);
 app.use(errorHandler);

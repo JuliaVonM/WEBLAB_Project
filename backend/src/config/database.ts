@@ -1,6 +1,9 @@
 import {connect} from 'mongoose';
 import {Category} from '../models/category.model';
 import {Ring} from '../models/ring.model';
+import {User} from "../models/user.model";
+import bcrypt from "bcryptjs";
+import {Role} from "../models/role.model";
 
 const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
@@ -22,6 +25,18 @@ const rings = [
         description: 'Things to look at closely, but not necessarily trial yet — unless you think they would be a particularly good fit for you.'
     },
     {name: 'Hold', description: 'Proceed with caution.'},
+];
+
+const roles = [
+    {name: 'CTO'},
+    {name: 'Tech-Lead'},
+    {name: 'Mitarbeiter'},
+];
+
+const users = [
+    {email: 'cto@example.com', password: 'cto', role: 'CTO'},
+    {email: 'techlead@example.com', password: 'tech', role: 'Tech-Lead'},
+    {email: 'mitarbeiter@example.com', password: 'pass', role: 'Mitarbeiter'},
 ];
 
 export const connectToDB = async () => {
@@ -53,6 +68,42 @@ export const connectToDB = async () => {
                 if (newRing) console.log(`Ring '${newRing.name}' added.`);
             })
             .catch((error) => console.error("Error seeding ring:", error));
+        });
+
+        roles.forEach((role) => {
+            Role.findOne({name: role.name})
+            .then((exists) => {
+                if (!exists) {
+                    return Role.create(role);
+                }
+            })
+            .then((newRing) => {
+                if (newRing) console.log(`Role '${newRing.name}' added.`);
+            })
+            .catch((error) => console.error("Error seeding role:", error));
+        });
+
+        users.forEach((user) => {
+            User.findOne({email: user.email})
+            .then((exists) => {
+                if (!exists) {
+                    Role.findOne({name: user.role}).then(exists => {
+                        if (exists) {
+                            user.role = exists._id;
+                            return bcrypt.hash(user.password, 10)
+                            .then((hashedPassword) => {
+                                return User.create({...user, password: hashedPassword});
+                            })
+                            .then((newUser) => {
+                                console.log(`User '${newUser.email}' added with role '${newUser.role}'.`);
+                            });
+                        }
+                    }).catch((error) => console.error("Error seeding user:", error));
+                }
+            })
+            .catch((error) => {
+                console.error("Error seeding user:", error);
+            });
         });
 
     })
