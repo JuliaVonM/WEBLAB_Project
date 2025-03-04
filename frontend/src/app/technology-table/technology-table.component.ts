@@ -42,6 +42,9 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
+import {
+  TechnologyViewDialogComponent
+} from '../technology-view-dialog/technology-view-dialog.component';
 
 @Component({
   selector: 'app-technology-table',
@@ -83,7 +86,6 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
   @Input('card-name') cardName: string = "Technology list";
   @Input() isAdmin: boolean = true;
   @Input() technologies!: Technology[];
-  // @Input() defaultSort: MatSort;
 
   @Output() updateTechnologies = new EventEmitter();
 
@@ -91,8 +93,8 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
   rings = new Array<Ring>();
   filteredTechnologies = new MatTableDataSource<Technology>([]);
 
-  readonly adminColumns: string[] = ['name', 'category', 'ring', 'published', 'actions'];
-  readonly viewerColumns: string[] = ['name', 'category', 'ring'];
+  readonly adminColumns: string[] = ['name', 'category', 'ring', 'details', 'published', 'actions'];
+  readonly viewerColumns: string[] = ['name', 'category', 'ring', 'details'];
   displayedColumns: string[] = this.adminColumns;
 
   activeFilter: string = 'all';
@@ -145,7 +147,7 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['technologies']) {
+    if (changes['technologies']) {
       this.filterTechnologies(this.activeFilter);
     }
   }
@@ -186,11 +188,13 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
   }
 
   getCategoryName(category: string | undefined) {
-    return this.categories.find(c => c._id === category)!.name;
+    const foundCategory = this.categories.find(c => c._id === category);
+    return foundCategory ? foundCategory.name : "";
   }
 
   getRingName(ring: string | undefined) {
-    return this.rings.find(c => c._id === ring)!.name;
+    const foundRing =  this.rings.find(c => c._id === ring);
+    return foundRing ? foundRing.name : "";
   }
 
   openAddTechDialog() {
@@ -273,4 +277,14 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     }
   }
 
+  onDetails(technology: Technology) {
+    this.dialog.open(TechnologyViewDialogComponent, {
+      data: {
+        technology: technology,
+        categories: this.categories,
+        rings: this.rings,
+        isAdmin: this.isAdmin
+      }
+    });
+  }
 }

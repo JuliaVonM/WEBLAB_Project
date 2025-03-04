@@ -10,17 +10,23 @@ export const createTechnology = (req: Request, res: Response): void => {
         return;
     }
 
+    const date = new Date();
+
     const newTechnology = new Technology({
         name,
         category,
         description,
         published,
-        createdAt: new Date()
+        createdAt: date
     });
 
     if (ring != undefined && description_ring != undefined) {
         newTechnology.ring = ring;
         newTechnology.description_ring = description_ring;
+    }
+
+    if (published) {
+        newTechnology.publicationDate = date;
     }
 
     newTechnology.save()

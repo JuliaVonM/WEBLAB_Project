@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Technologie Details</h2>
+<mat-dialog-content>
+  <p><strong>Name:</strong> {{ technology.name }}</p>
+  <p><strong>Beschreibung:</strong> {{ technology.description }}</p>
+  <p><strong>Kategorie:</strong> {{ getCategoryName(technology.category) }}</p>
+  <p><strong>Ring:</strong> {{ getRingName(technology.ring) || 'Kein Ring' }}</p>
+  <p><strong>Begründung für Ring-Einordnung:</strong> {{ technology.description_ring || 'Keine Beschreibung' }}</p>
+  @if (isAdmin) {
+    <p><strong>Veröffentlicht:</strong> {{ technology.published ? 'Ja' : 'Nein' }}</p>
+  }
+  <p><strong>Veröffentlichungsdatum:</strong> {{ technology.publicationDate | date }}</p>
+  <p><strong>Erstellt am:</strong> {{ technology.createdAt | date }}</p>
+  <p><strong>Aktualisiert am:</strong> {{ technology.updatedAt | date }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="technology">Schließen</button>
+</mat-dialog-actions>

@@ -19,6 +19,9 @@ export class AppComponent {
   isAdmin(): boolean {
     const roleName = this.authService.getRoleName();
     return roleName === "CTO" || roleName === "Tech-Lead";
+  }
 
+  isLoggedIn(): boolean {
+    return !!this.authService.getToken();
   }
 }

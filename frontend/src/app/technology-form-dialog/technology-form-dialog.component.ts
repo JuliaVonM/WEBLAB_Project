@@ -59,8 +59,8 @@ export class TechnologyFormDialogComponent {
       name: [this.editingTech ? this.editingTech.name : '', Validators.required],
       category: [this.editingTech ? this.editingTech.category : '', Validators.required],
       description: [this.editingTech ? this.editingTech.description : '', Validators.required],
-      ring: ['',],
-      description_ring: ['',]
+      ring: [undefined,],
+      description_ring: [undefined,]
     });
   }
 

@@ -34,6 +34,15 @@
         <mat-cell *matCellDef="let tech">{{ getRingName(tech.ring) }}</mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="details">
+        <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+        <mat-cell *matCellDef="let tech">
+        <button mat-icon-button (click)="onDetails(tech)" matTooltip="Details of technology">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+        </mat-cell>
+      </ng-container>
+
       @if (isAdmin) {
         <ng-container matColumnDef="published">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Published</mat-header-cell>
