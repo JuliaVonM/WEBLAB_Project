@@ -21,12 +21,12 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
 export function authenticateToken(req, res, next) {
     const token = req.header('Authorization')?.split(' ')[1];
     if (!token) {
-        return res.status(403).send('No token available');
+        return res.status(401).send('No token available');
     }
 
     jwt.verify(token, 'secretkey', (err, user) => {
         if (err) {
-            return res.status(403).send('Ungültiges Token');
+            return res.status(401).send('Ungültiges Token');
         }
         req.user = user;
         next();
