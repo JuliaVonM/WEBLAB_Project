@@ -45,6 +45,7 @@ import {MatInput} from '@angular/material/input';
 import {
   TechnologyViewDialogComponent
 } from '../technology-view-dialog/technology-view-dialog.component';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-technology-table',
@@ -111,6 +112,7 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     private techService: TechnologyService,
     private categoryService: CategoryService,
     private ringService: RingService,
+    private toastr: ToastrService
   ) {
   }
 
@@ -193,7 +195,7 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
   }
 
   getRingName(ring: string | undefined) {
-    const foundRing =  this.rings.find(c => c._id === ring);
+    const foundRing = this.rings.find(c => c._id === ring);
     return foundRing ? foundRing.name : "";
   }
 
@@ -208,9 +210,13 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe({
+      next: () => {
         this.updateTechnologies.emit();
+        this.toastr.success('Technology saved successfully.');
+      },
+      error: (err) => {
+        this.toastr.error(err.message);
       }
     });
   }
@@ -226,9 +232,13 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe({
+      next: () => {
         this.updateTechnologies.emit();
+        this.toastr.success('Technology edited successfully.');
+      },
+      error: (err) => {
+        this.toastr.error(err.message);
       }
     });
   }
@@ -243,9 +253,13 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe({
+      next: () => {
         this.updateTechnologies.emit();
+        this.toastr.success('Technology published successfully.');
+      },
+      error: (err) => {
+        this.toastr.error(err.message);
       }
     });
   }
@@ -260,20 +274,28 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe({
+      next: () => {
         this.updateTechnologies.emit();
+        this.toastr.success('Ring updated successfully.');
+      },
+      error: (err) => {
+        this.toastr.error(err.message);
       }
     });
   }
 
   onDelete(technology: Technology): void {
     if (technology._id) {
-      this.techService.deleteTechnology(technology._id).subscribe(
-        () => {
+      this.techService.deleteTechnology(technology._id).subscribe({
+        next: () => {
           this.updateTechnologies.emit();
+          this.toastr.success('Technology deleted successfully.');
+        },
+        error: (err) => {
+          this.toastr.error(err.message);
         }
-      )
+      });
     }
   }
 
