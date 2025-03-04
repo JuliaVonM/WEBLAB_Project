@@ -24,4 +24,8 @@ export class AppComponent {
   isLoggedIn(): boolean {
     return !!this.authService.getToken();
   }
+
+  onLogOut() {
+    this.authService.logout();
+  }
 }

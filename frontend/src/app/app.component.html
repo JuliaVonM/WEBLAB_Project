@@ -1,13 +1,15 @@
 <mat-toolbar color="primary">
   <span class="title">{{ title }}</span>
-  <span class="spacer"></span>
-  @if(isLoggedIn()){
-    <nav>
+  @if (isLoggedIn()) {
+    <nav class="m-3">
       @if (isAdmin()) {
-        <button mat-button routerLink="/admin" routerLinkActive="active-link">Administration</button>
+        <button mat-button routerLink="/admin" routerLinkActive="active-link">Administration
+        </button>
       }
       <button mat-button routerLink="/viewer" routerLinkActive="active-link">Viewer</button>
     </nav>
+    <span class="spacer"></span>
+    <button mat-button (click)="onLogOut()">Log Out</button>
   }
 </mat-toolbar>
 <router-outlet></router-outlet>
