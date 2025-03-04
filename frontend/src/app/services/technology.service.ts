@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Technology} from '../interfaces/technology';
 
@@ -13,12 +13,12 @@ export class TechnologyService {
   constructor(private http: HttpClient) {
   }
 
-  getTechnologies(): Observable<Technology[]> {
-    return this.http.get<Technology[]>(this.apiUrl);
-  }
-
-  getPublishedTechnologies(): Observable<Technology[]> {
-    return this.http.get<Technology[]>(`${this.apiUrl}/published`);
+  getTechnologies(published?: boolean): Observable<Technology[]> {
+    let params = new HttpParams();
+    if (published !== undefined) {
+      params = params.set('published', published.toString());
+    }
+    return this.http.get<Technology[]>(this.apiUrl, { params });
   }
 
   getTechnologyById(id: string): Observable<Technology> {
@@ -29,16 +29,8 @@ export class TechnologyService {
     return this.http.post<Technology>(this.apiUrl, technology);
   }
 
-  publishTechnology(technology: Technology): Observable<Technology> {
-    return this.http.put<Technology>(`${this.apiUrl}/publish/${technology._id}`, technology);
-  }
-
-  updateTechnology(technology: Technology): Observable<Technology> {
-    return this.http.put<Technology>(`${this.apiUrl}/${technology._id}`, technology)
-  }
-
-  updateRingOfTechnology(technology: Technology): Observable<Technology> {
-    return this.http.put<Technology>(`${this.apiUrl}/ring/${technology._id}`, technology);
+  updateTechnology(technology: Partial<Technology>): Observable<Technology> {
+    return this.http.patch<Technology>(`${this.apiUrl}/${technology._id}`, technology);
   }
 
   deleteTechnology(id: string): Observable<void> {

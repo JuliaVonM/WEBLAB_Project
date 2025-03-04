@@ -232,10 +232,17 @@ GET /rings/:id
 
 GET /technologies
 
-| Wert             | Beschreibung                                                                     |
-|------------------|----------------------------------------------------------------------------------|
-| Antwort (Erfolg) | Ein Array von Technologien im JSON-Format.                                       |
-| Antwort (Fehler) | Bei einem Serverfehler wird eine Fehlermeldung mit Statuscode 500 zurückgegeben. |
+| Wert             | Beschreibung                                                                                                                                                 |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Antwort (Erfolg) | Ein Array von Technologien im JSON-Format. Durch einen Filter kan definiert werden ob alle oder nur die published Technologien zurückgegeben werden sollten. |
+| Antwort (Fehler) | Bei einem Serverfehler wird eine Fehlermeldung mit Statuscode 500 zurückgegeben.                                                                             |
+
+GET /technologies/:id
+
+| Wert             | Beschreibung                                                                                                               |
+|------------------|----------------------------------------------------------------------------------------------------------------------------|
+| Antwort (Erfolg) | Die angeforderte Technologie im JSON-Format.                                                                               |
+| Antwort (Fehler) | Wenn die Technologie mit der angegebenen ID nicht gefunden wird, wird eine Fehlermeldung mit Statuscode 404 zurückgegeben. |
 
 POST /technologies
 
@@ -245,14 +252,8 @@ POST /technologies
 | Antwort (Erfolg) | Eine Bestätigungsmeldung, dass die Technologie erfolgreich erstellt wurde, und die vollständige Technologie im JSON-Format.                                                                       |
 | Antwort (Fehler) | Wenn nicht alle erforderlichen Felder ausgefüllt sind, wird eine Fehlermeldung mit Statuscode 400 zurückgegeben: `{ "message": "All required fields must be filled in!" }`.                       |
 
-GET /technologies/:id
 
-| Wert             | Beschreibung                                                                                                               |
-|------------------|----------------------------------------------------------------------------------------------------------------------------|
-| Antwort (Erfolg) | Die angeforderte Technologie im JSON-Format.                                                                               |
-| Antwort (Fehler) | Wenn die Technologie mit der angegebenen ID nicht gefunden wird, wird eine Fehlermeldung mit Statuscode 404 zurückgegeben. |
-
-PUT /technologies/:id
+PATCH /technologies/:id
 
 | Wert             | Beschreibung                                                                                                                                                                                      |
 |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -267,21 +268,6 @@ DELETE /technologies/:id
 | Antwort (Erfolg) | Eine Bestätigungsmeldung, dass die Technologie erfolgreich gelöscht wurde.                                                 |
 | Antwort (Fehler) | Wenn die Technologie mit der angegebenen ID nicht gefunden wird, wird eine Fehlermeldung mit Statuscode 404 zurückgegeben. |
 
-PUT /technologies/publish/:id
-
-| Wert             | Beschreibung                                                                                                                                                                                   |
-|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Body             | **ring:** Die ID des Technologie-Rings (erforderlich). <br> **description_ring:** Eine kurze Beschreibung des Rings (erforderlich).                                                            |
-| Antwort (Erfolg) | Eine Bestätigungsmeldung, dass die Technologie erfolgreich veröffentlicht wurde, und die aktualisierte Technologie im JSON-Format.                                                             |
-| Antwort (Fehler) | Wenn der Ring oder die Beschreibung des Rings nicht ausgefüllt sind, wird eine Fehlermeldung mit Statuscode 400 zurückgegeben: `{ "message": "Ring and ring description must be filled in!" }` |
-
-PUT /technologies/ring/:id
-
-| Wert             | Beschreibung                                                                                                                                                                                   |
-|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Body             | **ring:** Die ID des Technologie-Rings (erforderlich). <br> **description_ring:** Eine kurze Beschreibung des Rings (erforderlich).                                                            |
-| Antwort (Erfolg) | Eine Bestätigungsmeldung, dass der Ring der Technologie erfolgreich aktualisiert wurde, und die aktualisierte Technologie im JSON-Format.                                                      |
-| Antwort (Fehler) | Wenn der Ring oder die Beschreibung des Rings nicht ausgefüllt sind, wird eine Fehlermeldung mit Statuscode 400 zurückgegeben: `{ "message": "Ring and ring description must be filled in!" }` |
 
 #### Datenbank
 
@@ -427,13 +413,12 @@ Möglichkeiten:
 Die Kommunikation zwischen Frontend und Backend funktioniert über eine REST API mit folgenden
 HTTP-Methoden:
 
-| Methode | Beschreibung                                                       |
-|---------|--------------------------------------------------------------------|
-| GET     | Ruft Daten vom Server ab (Lesen von Technologien).                 |
-| POST    | Erstellt neue Ressourcen (Neue Technologie anlegen).               |
-| PUT     | Aktualisiert eine Ressource vollständig (Technologie bearbeiten).  |
-| PATCH   | Aktualisiert eine Ressource teilweise (Technologie-Status ändern). |
-| DELETE  | Entfernt eine Ressource (Technologie löschen).                     |
+| Methode | Beschreibung                                                    |
+|---------|-----------------------------------------------------------------|
+| GET     | Ruft Daten vom Server ab (Lesen von Technologien).              |
+| POST    | Erstellt neue Ressourcen (Neue Technologie anlegen).            |
+| PATCH   | Aktualisiert eine Ressource teilweise (Technologie bearbeiten). |
+| DELETE  | Entfernt eine Ressource (Technologie löschen).                  |
 
 Wichtige HTTP-Statuscodes:
 

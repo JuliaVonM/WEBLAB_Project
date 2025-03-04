@@ -46,7 +46,7 @@ export class TechnologyViewerComponent implements OnInit {
   }
 
   loadTechnologies() {
-    this.techService.getPublishedTechnologies().subscribe(technologies => {
+    this.techService.getTechnologies(true).subscribe(technologies => {
       this.techniques = technologies.filter(technology => {
         return this.getCategoryName(technology.category) === 'Techniques';
       });

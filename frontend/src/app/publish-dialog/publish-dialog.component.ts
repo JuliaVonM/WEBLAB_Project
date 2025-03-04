@@ -58,15 +58,11 @@ export class PublishDialogComponent {
     if (this.technologyForm.valid) {
       this.technology.ring = this.technologyForm.get('ring')?.value;
       this.technology.description_ring = this.technologyForm.get('ringDescription')?.value;
-      if (this.isEdit) {
-        this.techService.updateRingOfTechnology(this.technology).subscribe(() => {
-          this.dialogRef.close(this.technologyForm.value);
-        })
-      } else {
-        this.techService.publishTechnology(this.technology).subscribe(() => {
-          this.dialogRef.close(this.technologyForm.value);
-        })
-      }
+      this.technology.published = true;
+      this.techService.updateTechnology(this.technology).subscribe(() => {
+        this.dialogRef.close(this.technologyForm.value);
+      })
+
     }
   }
 

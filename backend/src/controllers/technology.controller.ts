@@ -40,16 +40,11 @@ export const createTechnology = (req: Request, res: Response): void => {
 
 // Get all technologies
 export const getTechnologies = (req: Request, res: Response) => {
-    Technology.find()
-    .then((technologies) => res.json(technologies))
-    .catch((error) => res.status(500).json({message: "Server error", error}));
-};
+    const filter = req.query.published ? { published: 'true' } : {};
 
-// Get all published technologies
-export const getPublishedTechnologies = (req: Request, res: Response) => {
-    Technology.find({published: true})
+    Technology.find(filter)
     .then((technologies) => res.json(technologies))
-    .catch((error) => res.status(500).json({message: "Server error", error}));
+    .catch((error) => res.status(500).json({ message: "Server error", error }));
 };
 
 // Get a single technologies by ID
@@ -64,50 +59,10 @@ export const getTechnologyById = (req: Request, res: Response) => {
     .catch((error) => res.status(500).json({message: "Server error", error}));
 };
 
-// Publish a technology
-export const publishTechnology = (req: Request, res: Response): void => {
-    const technologyId = req.params.id;
-    const {ring, description_ring} = req.body;
-
-    if (!ring || !description_ring) {
-        res.status(400).json({message: 'Ring and ring description must be filled in!'});
-        return;
-    }
-
-    Technology.findById(technologyId)
-    .then((technology) => {
-        if (!technology) {
-            res.status(404).json({message: 'Technology not found'});
-            return;
-        }
-
-        technology.ring = ring;
-        technology.description_ring = description_ring;
-        technology.publicationDate = new Date();
-        technology.published = true;
-
-        technology.save()
-        .then((updatedTechnology) => {
-            res.status(200).json({message: 'Technology successfully published', updatedTechnology});
-        })
-        .catch((err: any) => {
-            res.status(500).json({message: 'Error when publishing the technology', error: err});
-        });
-    })
-    .catch((err: any) => {
-        res.status(500).json({message: 'Error when retrieving the technology', error: err});
-    });
-};
-
-// Update basic values of technology
+// Update technology
 export const updateTechnology = (req: Request, res: Response): void => {
     const technologyId = req.params.id;
-    const {name, category, description} = req.body;
-
-    if (!name || !category || !description) {
-        res.status(400).json({message: 'Name, category and description must be filled in!'});
-        return;
-    }
+    const {name, category, description, ring, description_ring, published} = req.body;
 
     Technology.findById(technologyId)
     .then((technology) => {
@@ -116,43 +71,23 @@ export const updateTechnology = (req: Request, res: Response): void => {
             return;
         }
 
-        technology.name = name;
-        technology.category = category;
-        technology.description = description;
-        technology.updatedAt = new Date();
+        if (name) technology.name = name;
+        if (category) technology.category = category;
+        if (description) technology.description = description;
 
-        technology.save()
-        .then((updatedTechnology) => {
-            res.status(200).json({message: 'Technology successfully updated', updatedTechnology});
-        })
-        .catch((err: any) => {
-            res.status(500).json({message: 'Error when updating the technology', error: err});
-        });
-    })
-    .catch((err: any) => {
-        res.status(500).json({message: 'Error when retrieving the technology', error: err});
-    });
-};
-
-// Update ring of technology
-export const updateRingOfTechnology = (req: Request, res: Response): void => {
-    const technologyId = req.params.id;
-    const {ring, description_ring} = req.body;
-
-    if (!ring || !description_ring) {
-        res.status(400).json({message: 'Ring and ring description must be filled in!'});
-        return;
-    }
-
-    Technology.findById(technologyId)
-    .then((technology) => {
-        if (!technology) {
-            res.status(404).json({message: 'Technology not found'});
-            return;
+        if (ring !== undefined && description_ring !== undefined) {
+            technology.ring = ring;
+            technology.description_ring = description_ring;
         }
 
-        technology.ring = ring;
-        technology.description_ring = description_ring;
+        if (published !== undefined) {
+            if (published && (!ring || !description_ring)) {
+                return res.status(400).json({message: 'Ring and ring description are required to publish a technology.'});
+            }
+            technology.published = published;
+            if (published) technology.publicationDate = new Date();
+        }
+
         technology.updatedAt = new Date();
 
         technology.save()
