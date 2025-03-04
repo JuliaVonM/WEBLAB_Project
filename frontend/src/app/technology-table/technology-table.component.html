@@ -1,9 +1,8 @@
-<!-- List of technologies -->
 <mat-card class="card">
   <mat-card-header class="d-flex">
     <mat-card-title class="mb-2">{{ cardName }}</mat-card-title>
     @if (isAdmin) {
-      <button  mat-flat-button (click)="openAddTechDialog()" class="ms-auto">+ Add</button>
+      <button mat-flat-button (click)="openAddTechDialog()" class="ms-auto">+ Add</button>
     }
   </mat-card-header>
   <mat-card-content>
@@ -18,62 +17,73 @@
         <button mat-button (click)="filterTechnologies('unpublished')">Unpublished</button>
       </div>
     }
-    <mat-table [dataSource]="filteredTechnologies" matSort>
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-        <mat-cell *matCellDef="let tech">{{ tech.name }}</mat-cell>
-      </ng-container>
 
-      <ng-container matColumnDef="category">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
-        <mat-cell *matCellDef="let tech">{{ getCategoryName(tech.category) }}</mat-cell>
-      </ng-container>
+    <div class="table-container">
+      <mat-table [dataSource]="filteredTechnologies" matSort>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+          <mat-cell *matCellDef="let tech">{{ tech.name }}</mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="ring">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Ring</mat-header-cell>
-        <mat-cell *matCellDef="let tech">{{ getRingName(tech.ring) }}</mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="category" class="mat-column-category">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Category
+          </mat-header-cell>
+          <mat-cell *matCellDef="let tech">{{ getCategoryName(tech.category) }}</mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="details">
-        <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
-        <mat-cell *matCellDef="let tech">
-        <button mat-icon-button (click)="onDetails(tech)" matTooltip="Details of technology">
-          <mat-icon>more_horiz</mat-icon>
-        </button>
-        </mat-cell>
-      </ng-container>
-
-      @if (isAdmin) {
-        <ng-container matColumnDef="published">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Published</mat-header-cell>
-          <mat-cell *matCellDef="let tech">
-            <mat-chip [ngClass]="tech.published ? 'published' : 'unpublished'">
-              {{ tech.published ? 'Published' : 'Unpublished' }}
-            </mat-chip>
+        <ng-container matColumnDef="ring">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+                           [ngClass]="{'mat-column-ring': isAdmin}">Ring
+          </mat-header-cell>
+          <mat-cell *matCellDef="let tech" [ngClass]="{'mat-column-ring': isAdmin}">{{
+              getRingName(tech.ring)
+            }}
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <ng-container matColumnDef="details">
+          <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
           <mat-cell *matCellDef="let tech">
-            <button mat-icon-button (click)="onEdit(tech)" matTooltip="Edit technology">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="onChangeRing(tech)" matTooltip="Change classification (ring)">
-              <mat-icon>radar</mat-icon>
-            </button>
-            <button mat-icon-button *ngIf="!tech.published" (click)="onPublishPrompt(tech)" matTooltip="Publish technology">
-              <mat-icon>publish</mat-icon>
-            </button>
-            <button mat-icon-button (click)="onDelete(tech)" matTooltip="Delete technology">
-              <mat-icon>delete</mat-icon>
+            <button mat-icon-button (click)="onDetails(tech)" matTooltip="Details of technology">
+              <mat-icon>more_horiz</mat-icon>
             </button>
           </mat-cell>
         </ng-container>
-      }
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+        @if (isAdmin) {
+          <ng-container matColumnDef="published" class="mat-column-published">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Published</mat-header-cell>
+            <mat-cell *matCellDef="let tech">
+              <mat-chip [ngClass]="tech.published ? 'published' : 'unpublished'">
+                {{ tech.published ? 'Published' : 'Unpublished' }}
+              </mat-chip>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let tech">
+              <button mat-icon-button (click)="onEdit(tech)" matTooltip="Edit technology">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onChangeRing(tech)"
+                      matTooltip="Change classification (ring)">
+                <mat-icon>radar</mat-icon>
+              </button>
+              <button mat-icon-button *ngIf="!tech.published" (click)="onPublishPrompt(tech)"
+                      matTooltip="Publish technology">
+                <mat-icon>publish</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onDelete(tech)" matTooltip="Delete technology">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+        }
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
   </mat-card-content>
 </mat-card>

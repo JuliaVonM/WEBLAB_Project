@@ -5,3 +5,20 @@
 .unpublished {
   background-color: var(--mat-sys-background) !important;
 }
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+mat-table {
+  min-width: 500px;
+}
+
+@media (max-width: 768px) {
+  .mat-column-category,
+  .mat-column-ring,
+  .mat-column-published {
+    display: none;
+  }
+}

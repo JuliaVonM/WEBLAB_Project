@@ -11,3 +11,9 @@ button.active-link {
   background-color: #005cbb;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .dont-show-small {
+    display: none;
+  }
+}

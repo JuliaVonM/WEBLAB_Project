@@ -211,9 +211,11 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     });
 
     dialogRef.afterClosed().subscribe({
-      next: () => {
-        this.updateTechnologies.emit();
-        this.toastr.success('Technology saved successfully.');
+      next: (result) => {
+        if (result) {
+          this.updateTechnologies.emit();
+          this.toastr.success('Technology saved successfully.');
+        }
       },
       error: (err) => {
         this.toastr.error(err.message);
@@ -233,9 +235,11 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     });
 
     dialogRef.afterClosed().subscribe({
-      next: () => {
-        this.updateTechnologies.emit();
-        this.toastr.success('Technology edited successfully.');
+      next: (result) => {
+        if(result) {
+          this.updateTechnologies.emit();
+          this.toastr.success('Technology edited successfully.');
+        }
       },
       error: (err) => {
         this.toastr.error(err.message);
@@ -254,9 +258,11 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     });
 
     dialogRef.afterClosed().subscribe({
-      next: () => {
-        this.updateTechnologies.emit();
-        this.toastr.success('Technology published successfully.');
+      next: (result) => {
+        if(result) {
+          this.updateTechnologies.emit();
+          this.toastr.success('Technology published successfully.');
+        }
       },
       error: (err) => {
         this.toastr.error(err.message);
@@ -275,9 +281,11 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     });
 
     dialogRef.afterClosed().subscribe({
-      next: () => {
-        this.updateTechnologies.emit();
-        this.toastr.success('Ring updated successfully.');
+      next: (result) => {
+        if(result) {
+          this.updateTechnologies.emit();
+          this.toastr.success('Ring updated successfully.');
+        }
       },
       error: (err) => {
         this.toastr.error(err.message);
@@ -289,8 +297,8 @@ export class TechnologyTableComponent implements OnInit, AfterViewInit, OnChange
     if (technology._id) {
       this.techService.deleteTechnology(technology._id).subscribe({
         next: () => {
-          this.updateTechnologies.emit();
-          this.toastr.success('Technology deleted successfully.');
+            this.updateTechnologies.emit();
+            this.toastr.success('Technology deleted successfully.');
         },
         error: (err) => {
           this.toastr.error(err.message);
